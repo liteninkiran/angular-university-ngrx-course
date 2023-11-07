@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Course } from "../model/course";
-import { MatDialog } from "@angular/material/dialog";
-import { EditCourseDialogComponent } from "../edit-course-dialog/edit-course-dialog.component";
+import { Course } from '../model/course';
+import { MatDialog } from '@angular/material/dialog';
+import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
 import { defaultDialogConfig } from '../shared/default-dialog-config';
 
 @Component({
@@ -30,7 +30,7 @@ export class CoursesCardListComponent implements OnInit {
         const dialogConfig = defaultDialogConfig();
 
         dialogConfig.data = {
-            dialogTitle: "Edit Course",
+            dialogTitle: 'Edit Course',
             course,
             mode: 'update'
         };
