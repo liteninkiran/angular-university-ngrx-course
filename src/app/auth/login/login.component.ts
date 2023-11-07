@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { noop } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../reducers';
+import { login } from '../auth.actions';
 
 @Component({
     selector: 'login',
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
         this.auth.login(val.email, val.password).pipe(
             tap(user => {
                 console.log(user);
+                this.store.dispatch(login({ user }));
                 this.router.navigateByUrl('/courses');
             })
         ).subscribe(noop, () => alert('Login Failed'));
