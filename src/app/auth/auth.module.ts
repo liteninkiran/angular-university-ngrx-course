@@ -16,7 +16,6 @@ import { AuthService } from "./auth.service";
         MatInputModule,
         MatButtonModule,
         RouterModule.forChild([{ path: '', component: LoginComponent }]),
-
     ],
     declarations: [LoginComponent],
     exports: [LoginComponent],
