@@ -9,12 +9,12 @@
                 <span class="nav-list-item">Courses</span>
             </a>
 
-            <a mat-list-item routerLink="/login">
+            <a mat-list-item routerLink="/login" *ngIf="isLoggedOut$ | async">
                 <mat-icon>account_circle</mat-icon>
                 <span class="nav-list-item">Login</span>
             </a>
 
-            <a mat-list-item (click)="logout()">
+            <a mat-list-item (click)="logout()" *ngIf="isLoggedIn$ | async">
                 <mat-icon>exit_to_app</mat-icon>
                 <span class="nav-list-item">Logout</span>
             </a>

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from './reducers';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -8,14 +12,18 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 })
 export class AppComponent implements OnInit {
 
-    loading = true;
+    public loading = true;
+    public isLoggedIn$: Observable<boolean>;
+    public isLoggedOut$: Observable<boolean>;
 
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private store: Store<AppState>,
+    ) {
 
     }
 
-    ngOnInit() {
-
+    public ngOnInit(): void {
         this.router.events.subscribe(event => {
             switch (true) {
                 case event instanceof NavigationStart: {
@@ -34,11 +42,15 @@ export class AppComponent implements OnInit {
                 }
             }
         });
-
+        this.isLoggedIn$ = this.store.pipe(
+            map(state => !!state['auth'].user)
+        );
+        this.isLoggedOut$ = this.store.pipe(
+            map(state => !state['auth'].user)
+        );
     }
 
-    logout() {
+    public logout(): void {
 
     }
-
 }
