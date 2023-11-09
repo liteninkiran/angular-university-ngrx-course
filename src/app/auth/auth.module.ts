@@ -9,6 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { AuthService } from "./auth.service";
 import { StoreModule } from '@ngrx/store';
 import { authFeatureKey, authReducer } from './reducers';
+import { AuthGaurd } from './auth.guard';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ export class AuthModule {
             ngModule: AuthModule,
             providers: [
                 AuthService,
+                AuthGaurd,
             ],
         }
     }
