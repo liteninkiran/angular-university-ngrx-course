@@ -1,23 +1,26 @@
-import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppState } from '../reducers';
 import { Store, select } from '@ngrx/store';
 import { isLoggedIn } from './auth.selectors';
 import { tap } from 'rxjs/operators';
 
-export const AuthGaurd: CanActivateFn = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-): Observable<boolean> => {
+@Injectable()
+export class AuthGuard implements CanActivate {
 
-    const router: Router = inject(Router);
-    const store: Store<AppState> = inject(Store<AppState>);
+    constructor(
+        private store: Store<AppState>,
+        private router: Router,
+    ) {
 
-    return store.pipe(select(isLoggedIn), tap(loggedIn => {
-        if (!loggedIn) {
-            router.navigateByUrl('/login');
-        }
-    }));
+    }
+
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        return this.store.pipe(select(isLoggedIn), tap(loggedIn => {
+            if (!loggedIn) {
+                this.router.navigateByUrl('/login');
+            }
+        }));
+    }
 }
-

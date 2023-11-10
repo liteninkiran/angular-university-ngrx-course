@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { authFeatureKey, authReducer } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth.effects';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ export class AuthModule {
             ngModule: AuthModule,
             providers: [
                 AuthService,
+                AuthGuard,
             ],
         }
     }
