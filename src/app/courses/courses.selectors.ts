@@ -13,3 +13,4 @@ export const selectAllCourses = createSelector(selectCoursesState, fromCourses.s
 export const selectBeginnerCourses = createSelector(selectAllCourses, beginnerCallback);
 export const selectAdvancedCourses = createSelector(selectAllCourses, advancedCallback);
 export const selectPromoTotal = createSelector(selectAllCourses, countPromotionalCourses);
+export const areCoursesLoaded = createSelector(selectCoursesState, state => state.allCoursesLoaded);
