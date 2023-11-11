@@ -35,9 +35,8 @@ export class CoursesHttpService {
         return this.http.get<Lesson[]>(url, params);
     }
 
-
     public saveCourse(courseId: number | string, changes: Partial<Course>): Observable<any> {
-        const url = `/api/courses/${courseId}`;
+        const url = `/api/course/${courseId}`;
         return this.http.put(url, changes);
     }
 }
