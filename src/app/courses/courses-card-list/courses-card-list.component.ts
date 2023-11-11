@@ -4,6 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
 import { defaultDialogConfig } from '../shared/default-dialog-config';
 
+export interface IDialogData {
+    dialogTitle: string;
+    course: Course;
+    mode: 'create' | 'update';
+}
+
 @Component({
     selector: 'courses-card-list',
     templateUrl: './courses-card-list.component.html',
@@ -11,39 +17,32 @@ import { defaultDialogConfig } from '../shared/default-dialog-config';
 })
 export class CoursesCardListComponent implements OnInit {
 
-    @Input()
-    courses: Course[];
+    @Input() public courses: Course[];
 
-    @Output()
-    courseChanged = new EventEmitter();
+    @Output() public courseChanged = new EventEmitter();
 
     constructor(
-        private dialog: MatDialog) {
+        private dialog: MatDialog,
+    ) { }
+
+    public ngOnInit(): void {
+
     }
 
-    ngOnInit() {
-
-    }
-
-    editCourse(course: Course) {
-
+    public editCourse(course: Course): void {
         const dialogConfig = defaultDialogConfig();
-
-        dialogConfig.data = {
+        const data: IDialogData = {
             dialogTitle: 'Edit Course',
             course,
-            mode: 'update'
-        };
-
+            mode: 'update',
+        }
+        dialogConfig.data = data;
         this.dialog.open(EditCourseDialogComponent, dialogConfig)
             .afterClosed()
             .subscribe(() => this.courseChanged.emit());
-
     }
 
-    onDeleteCourse(course: Course) {
-
+    public onDeleteCourse(course: Course): void {
 
     }
-
 }

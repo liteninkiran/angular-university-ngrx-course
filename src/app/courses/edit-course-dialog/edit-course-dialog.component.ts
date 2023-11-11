@@ -3,7 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '../model/course';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CoursesHttpService } from '../services/courses-http.service';
+import { IDialogData } from '../courses-card-list/courses-card-list.component';
+import { AppState } from '../../reducers';
+import { Store } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+import { courseUpdated } from '../course.actions';
 
 @Component({
     selector: 'course-dialog',
@@ -12,56 +16,46 @@ import { CoursesHttpService } from '../services/courses-http.service';
 })
 export class EditCourseDialogComponent {
 
-    form: FormGroup;
-    dialogTitle: string;
-    course: Course;
-    mode: 'create' | 'update';
-    loading$: Observable<boolean>;
+    public form: FormGroup;
+    public data: IDialogData;
+    public loading$: Observable<boolean>;
 
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<EditCourseDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) data,
-        private coursesService: CoursesHttpService,
+        private store: Store<AppState>,
+        @Inject(MAT_DIALOG_DATA) data: IDialogData,
     ) {
-
-        this.dialogTitle = data.dialogTitle;
-        this.course = data.course;
-        this.mode = data.mode;
+        this.data = data;
 
         const formControls = {
             description: ['', Validators.required],
             category: ['', Validators.required],
             longDescription: ['', Validators.required],
-            promo: ['', []]
+            promo: ['', []],
         };
 
-        if (this.mode == 'update') {
+        if (this.data.mode === 'update') {
             this.form = this.fb.group(formControls);
             this.form.patchValue({ ...data.course });
         }
-        else if (this.mode == 'create') {
+        else if (this.data.mode === 'create') {
             this.form = this.fb.group({
                 ...formControls,
                 url: ['', Validators.required],
-                iconUrl: ['', Validators.required]
+                iconUrl: ['', Validators.required],
             });
         }
     }
 
-    onClose() {
+    public onClose(): void {
         this.dialogRef.close();
     }
 
-    onSave() {
-
-        const course: Course = {
-            ...this.course,
-            ...this.form.value
-        };
-
-        this.coursesService
-            .saveCourse(course.id, course)
-            .subscribe(() => this.dialogRef.close());
+    public onSave(): void {
+        const course: Course = { ...this.data.course, ...this.form.value }
+        const update: Update<Course> = { id: course.id, changes: course }
+        this.store.dispatch(courseUpdated({ update }));
+        this.dialogRef.close();
     }
 }
