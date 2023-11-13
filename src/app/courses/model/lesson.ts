@@ -6,18 +6,7 @@ export interface Lesson {
     courseId: number;
 }
 
-export function compareLessons(l1: Lesson, l2: Lesson) {
-
+export function compareLessons(l1: Lesson, l2: Lesson): number {
     const compareCourses = l1.courseId - l2.courseId;
-
-    if (compareCourses > 0) {
-        return 1;
-    }
-    else if (compareCourses < 0) {
-        return -1;
-    }
-    else {
-        return l1.seqNo - l2.seqNo;
-    }
-
+    return compareCourses === 0 ? l1.seqNo - l2.seqNo : (compareCourses > 0 ? 1 : -1);
 }
