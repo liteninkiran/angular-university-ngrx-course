@@ -3,8 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '../model/course';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { IDialogData } from '../courses-card-list/courses-card-list.component';
 import { CourseEntityService } from '../services/course-entity.service';
+
+export interface IDialogData {
+    dialogTitle: string;
+    course?: Course;
+    mode: 'update' | 'create';
+};
 
 @Component({
     selector: 'course-dialog',
@@ -56,6 +61,8 @@ export class EditCourseDialogComponent {
         if (this.data.mode === 'update') {
             this.coursesService.update(course);
             this.dialogRef.close();
+        } else if (this.data.mode === 'create') {
+            this.coursesService.add(course).subscribe(() => this.dialogRef.close());
         }
     }
 }

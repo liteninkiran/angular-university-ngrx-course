@@ -1,14 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Course } from '../model/course';
 import { MatDialog } from '@angular/material/dialog';
-import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
+import { EditCourseDialogComponent, IDialogData } from '../edit-course-dialog/edit-course-dialog.component';
 import { defaultDialogConfig } from '../shared/default-dialog-config';
-
-export interface IDialogData {
-    dialogTitle: string;
-    course: Course;
-    mode: 'update' | 'create';
-};
 
 @Component({
     selector: 'courses-card-list',

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Course } from '../model/course';
 import { defaultDialogConfig } from '../shared/default-dialog-config';
-import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
+import { EditCourseDialogComponent, IDialogData } from '../edit-course-dialog/edit-course-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CourseEntityService } from '../services/course-entity.service';
 
@@ -16,17 +16,15 @@ import { CourseEntityService } from '../services/course-entity.service';
 })
 export class HomeComponent implements OnInit {
 
-    promoTotal$: Observable<number>;
-    loading$: Observable<boolean>;
-    beginnerCourses$: Observable<Course[]>;
-    advancedCourses$: Observable<Course[]>;
+    public promoTotal$: Observable<number>;
+    public loading$: Observable<boolean>;
+    public beginnerCourses$: Observable<Course[]>;
+    public advancedCourses$: Observable<Course[]>;
 
     constructor(
         private dialog: MatDialog,
         private coursesService: CourseEntityService,
-    ) {
-
-    }
+    ) { }
 
     public ngOnInit(): void {
         this.reload();
@@ -40,10 +38,11 @@ export class HomeComponent implements OnInit {
 
     public onAddCourse(): void {
         const dialogConfig = defaultDialogConfig();
-        dialogConfig.data = {
+        const data: IDialogData = {
             dialogTitle: 'Create Course',
-            mode: 'create'
-        };
+            mode: 'create',
+        }
+        dialogConfig.data = data;
         this.dialog.open(EditCourseDialogComponent, dialogConfig);
     }
 }
