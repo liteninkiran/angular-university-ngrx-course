@@ -14,16 +14,16 @@
 
     <mat-card-actions class="course-actions">
 
-        <button mat-raised-button color="primary" [routerLink]="['/courses', course.url]">
-            VIEW
+        <button mat-mini-fab color="primary" [routerLink]="['/courses', course.url]">
+            <mat-icon>visibility</mat-icon>
         </button>
 
         <button mat-mini-fab color="accent" (click)="editCourse(course)">
-            <mat-icon class="add-course-btn">edit</mat-icon>
+            <mat-icon>edit</mat-icon>
         </button>
 
         <button mat-mini-fab color="warn" (click)="onDeleteCourse(course)">
-            <mat-icon class="add-course-btn">delete</mat-icon>
+            <mat-icon>delete</mat-icon>
         </button>
 
     </mat-card-actions>
